@@ -1,6 +1,8 @@
 # TelNot
 TelegramNotifier - Send Telegram messages easily using HTTP
 
+TelNot is written in Python 3 and it is using Flask (HTTP endpoint) and python-telegram-bot for talking to Telegram service. It is also recommended to be used together with Apache and mod_ssl so the traffic is encrypted using HTTPS (config snipped is avaialble at the end of this README file).
+
 ### Usage
 
 1) Install dependencies using pip3
@@ -40,3 +42,21 @@ $ curl -X POST -d 'token=this-is-very-secret-token' -d 'bot=bot1' -d 'message=te
 ### License
 
 Released under MIT license, for more information check  LICENSE file.
+
+
+### Appendix
+
+#### Using HTTPd as SSL reverse proxy
+```
+Listen localhost:443 https
+
+<VirtualHost _default_:443>
+  SSLCertificateFile /etc/letsencrypt/live/.../fullchain.pem
+  SSLCertificateKeyFile /etc/letsencrypt/live/.../privkey.pem
+
+  <Location "/notify">
+    ProxyPass http://localhost:5000/notify
+    ProxyPassReverse http://localhost:5000/notify
+  </Location>
+</VirtualHost>                                  
+```
