@@ -104,3 +104,6 @@ venv.bak/
 .mypy_cache/
 
 .idea
+
+# Avoid sending possible valid testing config.ini
+config.ini
