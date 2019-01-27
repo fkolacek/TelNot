@@ -1,12 +1,12 @@
 # TelNot
 TelegramNotifier - Send Telegram messages easily using HTTP
 
-TelNot is written in Python 3 and it is using Flask (HTTP endpoint) and python-telegram-bot for talking to Telegram service. It is also recommended to be used together with Apache and mod_ssl so the traffic is encrypted using HTTPS (config snipped is avaialble at the end of this README file).
+TelNot is written in Python 3 and it is using Flask (HTTP endpoint) and python-telegram-bot for talking to Telegram service. It is also recommended to be used together with Apache and mod_ssl so the traffic is encrypted using HTTPS (config snipped is available at the end of this README file).
 
 ### Usage
 
 1) Install dependencies using pip3
-2) Update ``config.ini`` with bot and user definitions
+2) Copy ``config.ini.example`` as ``config.ini`` and update it with bot and user definitions
 3) Run ``app.py``
 4) Profit!
 
@@ -60,3 +60,27 @@ Listen localhost:443 https
   </Location>
 </VirtualHost>                                  
 ```
+
+#### Dockerise it
+
+##### Using docker-compose
+Just use ``docker-compose build`` to build your own Docker image.
+
+Use ``docker-compose up`` to run it on docker.
+
+Alter `Dockerfile` and `docker-compose.yaml` files in order to meet your own needs.
+
+##### The CLI way
+Build it using:
+```bash
+docker build . -t fkolacek/telnot
+```
+
+Create your ``config.ini`` file and then run a daemonised container with:
+docker run -d --name telnot -v $PWD/config.ini:/usr/src/app/config.ini -p 5000:5000 fkolacek/telnot
+
+##### Security
+There are many ways to run this through Traefik to make it run securely on HTTPS
+
+##### Scalability
+One can use ``ConfigMap`` in Kubernetes to provide this service with its ``config.ini`` and set multiple Replicas

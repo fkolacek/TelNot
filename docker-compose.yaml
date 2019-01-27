@@ -1,0 +1,8 @@
+version: "3"
+services:
+  telnot:
+    build: .
+    ports:
+     - "5000:5000"
+    volumes:
+     - ./config.ini.example:/usr/src/app/config.ini
